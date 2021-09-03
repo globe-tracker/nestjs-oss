@@ -6,6 +6,7 @@
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
@@ -15,9 +16,16 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@globetracker/logger-nestjs-builder-plugin": [
+        "packages/logger-nestjs-builder-plugin/src/index.ts"
+      ],
+      "@globetracker/nestjs-kubernetes-client": [
+        "packages/nestjs-kubernetes-client/src/index.ts"
+      ],
       "@globetracker/nestjs-kubernetes-operator": [
         "packages/nestjs-kubernetes-operator/src/index.ts"
-      ]
+      ],
+      "@globetracker/nestjs-logger": ["packages/nestjs-logger/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

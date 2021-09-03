@@ -1,6 +1,72 @@
 {
   "version": 2,
   "projects": {
+    "logger-nestjs-builder-plugin": {
+      "root": "packages/logger-nestjs-builder-plugin",
+      "sourceRoot": "packages/logger-nestjs-builder-plugin/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/logger-nestjs-builder-plugin/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/logger-nestjs-builder-plugin"],
+          "options": {
+            "jestConfig": "packages/logger-nestjs-builder-plugin/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/logger-nestjs-builder-plugin",
+            "tsConfig": "packages/logger-nestjs-builder-plugin/tsconfig.lib.json",
+            "packageJson": "packages/logger-nestjs-builder-plugin/package.json",
+            "main": "packages/logger-nestjs-builder-plugin/src/index.ts",
+            "assets": ["packages/logger-nestjs-builder-plugin/*.md"]
+          }
+        }
+      }
+    },
+    "nestjs-kubernetes-client": {
+      "root": "packages/nestjs-kubernetes-client",
+      "sourceRoot": "packages/nestjs-kubernetes-client/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/nestjs-kubernetes-client/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/nestjs-kubernetes-client"],
+          "options": {
+            "jestConfig": "packages/nestjs-kubernetes-client/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/nestjs-kubernetes-client",
+            "tsConfig": "packages/nestjs-kubernetes-client/tsconfig.lib.json",
+            "packageJson": "packages/nestjs-kubernetes-client/package.json",
+            "main": "packages/nestjs-kubernetes-client/src/index.ts",
+            "assets": ["packages/nestjs-kubernetes-client/*.md"]
+          }
+        }
+      }
+    },
     "nestjs-kubernetes-operator": {
       "root": "packages/nestjs-kubernetes-operator",
       "sourceRoot": "packages/nestjs-kubernetes-operator/src",
@@ -29,6 +95,38 @@
             "packageJson": "packages/nestjs-kubernetes-operator/package.json",
             "main": "packages/nestjs-kubernetes-operator/src/index.ts",
             "assets": ["packages/nestjs-kubernetes-operator/*.md"]
+          }
+        }
+      }
+    },
+    "nestjs-logger": {
+      "root": "packages/nestjs-logger",
+      "sourceRoot": "packages/nestjs-logger/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/nestjs-logger/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/nestjs-logger"],
+          "options": {
+            "jestConfig": "packages/nestjs-logger/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/nestjs-logger",
+            "tsConfig": "packages/nestjs-logger/tsconfig.lib.json",
+            "packageJson": "packages/nestjs-logger/package.json",
+            "main": "packages/nestjs-logger/src/index.ts",
+            "assets": ["packages/nestjs-logger/*.md"]
           }
         }
       }

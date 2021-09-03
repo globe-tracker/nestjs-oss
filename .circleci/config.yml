@@ -1,8 +1,9 @@
 version: 2.1
 
 default_image: &default_image
-  docker:
-    - image: circleci/node:14.15.1
+  executor:
+    name: node/default
+    tag: "14.15.1"
 
 default_resource_class: &default_resource_class
   resource_class: medium
@@ -83,12 +84,17 @@ jobs:
           name: Run Linting
 
   test:
-    <<: *defaults
+    docker:
+      - image: tiltdev/circleci-kind:v1.4.0
     steps:
+      - setup_remote_docker
+      - node/install:
+          install-yarn: true
+          node-version: 14.15.1
       - setup
       - run:
           command: >-
-            yarn nx affected --target=test --base=$NX_BASE --head=$NX_HEAD --parallel --ci
+            with-kind-cluster.sh yarn nx affected --target=test --base=$NX_BASE --head=$NX_HEAD --parallel --ci
             --max-parallel=2
           name: Run Unit Tests
       - store_test_results:
