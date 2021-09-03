@@ -70,10 +70,10 @@ commands:
     description: 'Update Deployment Cache'
     steps:
       - run: git rev-parse HEAD > dist/last-deploy.txt
-    - save_cache:
-        key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
-        paths:
-          - dist/last-deploy.txt
+      - save_cache:
+          key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
+          paths:
+            - dist/last-deploy.txt
 # Available Jobs
 jobs:
   initialise:
