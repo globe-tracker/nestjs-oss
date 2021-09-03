@@ -1,4 +1,4 @@
-
+[![CircleCI](https://circleci.com/gh/globe-tracker/nestjs-oss/tree/main.svg?style=svg)](https://circleci.com/gh/globe-tracker/nestjs-oss/tree/main)
 
 # NestjsOss
 
