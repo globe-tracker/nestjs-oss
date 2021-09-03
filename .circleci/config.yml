@@ -93,7 +93,7 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=lint $AFFECTED_ARGS --parallel --ci
+            yarn nx affected --target=lint $AFFECTED_ARGS --parallel
             --max-parallel=2
           name: Run Linting
 
@@ -106,6 +106,9 @@ jobs:
           install-yarn: true
           node-version: 14.15.1
       - setup
+      - run:
+          command: >-
+            with-kind-cluster.sh kubectl create namespace integration-tests
       - run:
           command: >-
             with-kind-cluster.sh yarn nx affected --target=test $AFFECTED_ARGS --parallel --ci
