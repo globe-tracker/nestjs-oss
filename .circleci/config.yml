@@ -21,7 +21,7 @@ set_env: &set_env
     echo 'Fetching Base Commit from Deploy Cache'
     if [[ ! -f dist/last-deploy.txt ]]
     then
-      mkdir dist && echo all > dist/last-deploy.txt
+      mkdir dist && echo main > dist/last-deploy.txt
     fi
     echo 'export AFFECTED_ARGS="--base $(cat dist/last-deploy.txt)"' >> $BASH_ENV
     source $BASH_ENV
@@ -66,6 +66,14 @@ commands:
       - run:
           <<: *set_env
 
+  update_deployment:
+    description: 'Update Deployment Cache'
+    steps:
+      - run: git rev-parse HEAD > dist/last-deploy.txt
+    - save_cache:
+        key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
+        paths:
+          - dist/last-deploy.txt
 # Available Jobs
 jobs:
   initialise:
@@ -92,10 +100,22 @@ jobs:
           name: Run Builds
       - store_artifacts:
           path: dist
-      - save_cache:
-          key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
-          paths:
-            - dist/last-deploy.txt
+
+  publish:
+    <<: *defaults
+    steps:
+      - setup
+      - update_deployment
+
+  lint:
+    <<: *defaults
+    steps:
+      - setup
+      - run:
+          command: >-
+            yarn nx affected --target=lint ${AFFECTED_ARGS} --parallel --ci
+            --max-parallel=2
+          name: Run Linting
 
   test:
     <<: *defaults
@@ -118,6 +138,14 @@ workflows:
       - build:
           requires:
             - initialise
+      - lint:
+          requires:
+            - initialise
       - test:
           requires:
             - initialise
+      - publish:
+          requires:
+            - build
+            - lint
+            - test
