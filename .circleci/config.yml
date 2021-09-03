@@ -46,14 +46,6 @@ commands:
       - attach_workspace:
           at: ~/project
 
-  update_deployment:
-    description: 'Update Deployment Cache'
-    steps:
-      - run: git rev-parse HEAD > dist/last-deploy.txt
-      - save_cache:
-          key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
-          paths:
-            - dist/last-deploy.txt
 # Available Jobs
 jobs:
   initialise:
@@ -79,12 +71,6 @@ jobs:
           name: Run Builds
       - store_artifacts:
           path: dist
-
-  publish:
-    <<: *defaults
-    steps:
-      - setup
-      - update_deployment
 
   lint:
     <<: *defaults
@@ -123,8 +109,3 @@ workflows:
       - test:
           requires:
             - initialise
-      - publish:
-          requires:
-            - build
-            - lint
-            - test
