@@ -1,6 +1,39 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "nestjs-kubernetes-operator": {
+      "root": "packages/nestjs-kubernetes-operator",
+      "sourceRoot": "packages/nestjs-kubernetes-operator/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/nestjs-kubernetes-operator/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/nestjs-kubernetes-operator"],
+          "options": {
+            "jestConfig": "packages/nestjs-kubernetes-operator/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/nestjs-kubernetes-operator",
+            "tsConfig": "packages/nestjs-kubernetes-operator/tsconfig.lib.json",
+            "packageJson": "packages/nestjs-kubernetes-operator/package.json",
+            "main": "packages/nestjs-kubernetes-operator/src/index.ts",
+            "assets": ["packages/nestjs-kubernetes-operator/*.md"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "defaultCollection": "@nrwl/workspace"
   }

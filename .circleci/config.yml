@@ -1,0 +1,81 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@2.0.1
+  nx: nrwl/nx@1.0.0
+
+# Reusable Commands
+commands:
+  npm_install:
+    description: 'Install & Cache Dependencies'
+    steps:
+      - run: npm install
+      - save_cache:
+          key: nx-cloud-recipe-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.cache
+            - node_modules
+
+  restore_npm_cache:
+    description: 'Restore Cached Dependencies'
+    steps:
+      - restore_cache:
+          keys:
+            - nx-cloud-recipe-{{ checksum "package-lock.json" }}
+            - nx-cloud-recipe- # used if checksum fails
+
+  setup:
+    description: 'Setup Executor'
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+
+# Available Jobs
+jobs:
+  initialise:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - restore_npm_cache
+      - npm_install
+      - nx/set-shas
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - node_modules
+            - dist
+
+  build:
+    executor:
+      name: node/default
+    steps:
+      - setup
+      - run:
+          command: >-
+            yarn nx affected --target=build --base=$NX_BASE --parallel
+            --max-parallel=3
+          name: Run Builds
+
+  test:
+    executor:
+      name: node/default
+    steps:
+      - setup
+      - run:
+          command: >-
+            yarn nx affected --target=test --base=$NX_BASE --parallel
+            --max-parallel=2
+          name: Run Unit Tests
+
+workflows:
+  build-and-test:
+    jobs:
+      - initialise
+      - build:
+          requires:
+            - initialise
+      - test:
+          requires:
+            - initialise

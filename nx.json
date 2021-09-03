@@ -8,15 +8,14 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "ODc3YmI1OTMtODFmNy00ZDE1LTk0MTAtMzdhNWNkOGQyMjgwfHJlYWQtd3JpdGU="
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "nestjs-kubernetes-operator": {
+      "tags": []
+    }
+  }
 }
