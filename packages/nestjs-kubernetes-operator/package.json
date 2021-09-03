@@ -1,4 +1,6 @@
 {
   "name": "@globetracker/nestjs-kubernetes-operator",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "private": false,
+  "license": "MIT"
 }
