@@ -126,6 +126,7 @@ jobs:
     <<: *defaults
     steps:
       - setup
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
       - run:
           command: >-
             yarn nx affected --target=publish $AFFECTED_ARGS --parallel
