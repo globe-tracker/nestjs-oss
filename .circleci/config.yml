@@ -15,23 +15,6 @@ orbs:
   node: circleci/node@4.7.0
   nx: nrwl/nx@1.0.0
 
-set_env: &set_env
-  name: Setup Environment Variables
-  command: |
-    echo 'Fetching Base Commit from Deploy Cache'
-    if [[ ! -f dist/last-deploy.txt ]]
-    then
-      mkdir dist && echo main > dist/last-deploy.txt
-    fi
-    echo 'export AFFECTED_ARGS="--base $(cat dist/last-deploy.txt)"' >> $BASH_ENV
-    source $BASH_ENV
-    echo $AFFECTED_ARGS
-
-deploy_cache: &deploy_cache
-  keys:
-    - last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
-    - last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-
-
 nx-cache: &nx-cache
   key: nx-cloud-recipe-{{ checksum "yarn.lock" }}
 
@@ -59,12 +42,9 @@ commands:
     description: 'Setup Executor'
     steps:
       - checkout
+      - nx/set-shas
       - attach_workspace:
           at: ~/project
-      - restore_cache:
-          <<: *deploy_cache
-      - run:
-          <<: *set_env
 
   update_deployment:
     description: 'Update Deployment Cache'
@@ -82,7 +62,6 @@ jobs:
       - checkout
       - restore_npm_cache
       - yarn_install
-      - nx/set-shas
       - persist_to_workspace:
           root: ~/project
           paths:
