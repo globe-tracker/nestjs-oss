@@ -66,7 +66,7 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=build $NX_BASE --parallel
+            yarn nx affected --target=build --base=$NX_BASE --head=$NX_HEAD --parallel
             --max-parallel=3
           name: Run Builds
       - store_artifacts:
@@ -78,7 +78,7 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=lint $NX_BASE --parallel --ci
+            yarn nx affected --target=lint --base=$NX_BASE --head=$NX_HEAD --parallel --ci
             --max-parallel=2
           name: Run Linting
 
@@ -88,7 +88,7 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=test $NX_BASE --parallel --ci
+            yarn nx affected --target=test --base=$NX_BASE --head=$NX_HEAD --parallel --ci
             --max-parallel=2
           name: Run Unit Tests
       - store_test_results:
