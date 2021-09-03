@@ -15,6 +15,23 @@ orbs:
   node: circleci/node@4.7.0
   nx: nrwl/nx@1.0.0
 
+set_env: &set_env
+  name: Setup Environment Variables
+  command: |
+    echo 'Fetching Base Commit from Deploy Cache'
+    if [[ ! -f dist/last-deploy.txt ]]
+    then
+      mkdir dist && echo all > dist/last-deploy.txt
+    fi
+    echo 'export AFFECTED_ARGS="--base $(cat dist/last-deploy.txt)"' >> $BASH_ENV
+    source $BASH_ENV
+    echo $AFFECTED_ARGS
+
+deploy_cache: &deploy_cache
+  keys:
+    - last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
+    - last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-
+
 nx-cache: &nx-cache
   key: nx-cloud-recipe-{{ checksum "yarn.lock" }}
 
@@ -44,6 +61,10 @@ commands:
       - checkout
       - attach_workspace:
           at: ~/project
+      - restore_cache:
+          <<: *deploy_cache
+      - run:
+          <<: *set_env
 
 # Available Jobs
 jobs:
@@ -66,9 +87,15 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=build --base=$NX_BASE --parallel
+            yarn nx affected --target=build ${AFFECTED_ARGS} --parallel
             --max-parallel=3
           name: Run Builds
+      - store_artifacts:
+          path: dist
+      - save_cache:
+          key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
+          paths:
+            - dist/last-deploy.txt
 
   test:
     <<: *defaults
@@ -76,7 +103,7 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=test --base=$NX_BASE --parallel --ci
+            yarn nx affected --target=test ${AFFECTED_ARGS} --parallel --ci
             --max-parallel=2
           name: Run Unit Tests
       - store_test_results:
