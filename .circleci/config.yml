@@ -16,6 +16,18 @@ orbs:
   node: circleci/node@4.7.0
   nx: nrwl/nx@1.0.0
 
+set_env: &set_env
+  name: Setup Environment Variables
+  command: |
+    echo 'Fetching Base Commit from Deploy Cache'
+    if [[ ! -f dist/last-deploy.txt ]]
+    then
+      mkdir dist && echo --all > dist/last-deploy.txt
+    fi
+    echo 'export AFFECTED_ARGS="--base $(cat dist/last-deploy.txt)"' >> $BASH_ENV
+    source $BASH_ENV
+    echo $AFFECTED_ARGS
+
 nx-cache: &nx-cache
   key: nx-cloud-recipe-{{ checksum "yarn.lock" }}
 
@@ -43,7 +55,8 @@ commands:
     description: 'Setup Executor'
     steps:
       - checkout
-      - nx/set-shas
+      - run:
+          <<: *set_env
       - attach_workspace:
           at: ~/project
 
@@ -67,7 +80,7 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=build --base=$NX_BASE --head=$NX_HEAD --parallel
+            yarn nx affected --target=build $AFFECTED_ARGS --parallel
             --max-parallel=3
           name: Run Builds
       - store_artifacts:
@@ -79,7 +92,7 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=lint --base=$NX_BASE --head=$NX_HEAD --parallel --ci
+            yarn nx affected --target=lint $AFFECTED_ARGS --parallel --ci
             --max-parallel=2
           name: Run Linting
 
@@ -94,13 +107,22 @@ jobs:
       - setup
       - run:
           command: >-
-            with-kind-cluster.sh yarn nx affected --target=test --base=$NX_BASE --head=$NX_HEAD --parallel --ci
+            with-kind-cluster.sh yarn nx affected --target=test $AFFECTED_ARGS --parallel --ci
             --max-parallel=2
           name: Run Unit Tests
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
+
+  publish:
+    <<: *defaults
+    steps:
+      - run: git rev-parse HEAD > dist/last-deploy.txt
+      - save_cache:
+         key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
+         paths:
+           - dist/last-deploy.txt
 
 workflows:
   build-and-test:
@@ -115,3 +137,8 @@ workflows:
       - test:
           requires:
             - initialise
+      - publish:
+          requires:
+            - build
+            - lint
+            - test
