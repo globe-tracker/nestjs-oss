@@ -127,6 +127,11 @@ jobs:
             --max-parallel=2
           name: Running NPM Publish
       - run: git rev-parse HEAD > dist/last-deploy.txt
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - node_modules
+            - dist
       - save_cache:
          key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
          paths:
