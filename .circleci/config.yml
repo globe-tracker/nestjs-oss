@@ -1,20 +1,25 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@2.0.1
+  node: circleci/node@4.1.0
   nx: nrwl/nx@1.0.0
+
+nx-cache: &nx-cache
+  key: nx-cloud-recipe-{{ checksum "package-lock.json" }}
 
 # Reusable Commands
 commands:
-  npm_install:
-    description: 'Install & Cache Dependencies'
+  yarn_install:
+    description: Install Packages
     steps:
-      - run: npm install
+      - node/install-packages:
+          include-branch-in-cache-key: true
+          cache-version: v3
+          pkg-manager: yarn
       - save_cache:
-          key: nx-cloud-recipe-{{ checksum "package-lock.json" }}
+          <<: *nx-cache
           paths:
             - ~/.cache
-            - node_modules
 
   restore_npm_cache:
     description: 'Restore Cached Dependencies'
@@ -39,7 +44,7 @@ jobs:
     steps:
       - checkout
       - restore_npm_cache
-      - npm_install
+      - yarn_install
       - nx/set-shas
       - persist_to_workspace:
           root: ~/project
@@ -65,9 +70,13 @@ jobs:
       - setup
       - run:
           command: >-
-            yarn nx affected --target=test --base=$NX_BASE --parallel
+            yarn nx affected --target=test --base=$NX_BASE --parallel --ci
             --max-parallel=2
           name: Run Unit Tests
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
 
 workflows:
   build-and-test:
