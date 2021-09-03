@@ -5,14 +5,18 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@jbiskur/nestjs-async-module": "^3.1.1",
+    "@jbiskur/nestjs-options-module-factory": "^3.1.1",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
+    "@nestjs/microservices": "^8.0.6",
     "@nestjs/platform-express": "^7.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@jbiskur/nestjs-test-utilities": "^3.1.1",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",
     "@nrwl/cli": "12.8.0",
