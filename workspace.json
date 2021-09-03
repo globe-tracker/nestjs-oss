@@ -36,7 +36,7 @@
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npm publish dist/packages/logger-nestjs-builder-plugin"
+            "command": "npm publish --access public dist/packages/logger-nestjs-builder-plugin"
           }
         }
       }
@@ -74,7 +74,7 @@
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npm publish dist/packages/nestjs-kubernetes-client"
+            "command": "npm publish --access public dist/packages/nestjs-kubernetes-client"
           }
         }
       }
@@ -112,7 +112,7 @@
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npm publish dist/packages/nestjs-kubernetes-operator"
+            "command": "npm publish --access public dist/packages/nestjs-kubernetes-operator"
           }
         }
       }
@@ -150,7 +150,7 @@
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npm publish dist/packages/nestjs-logger"
+            "command": "npm publish --access public dist/packages/nestjs-logger"
           }
         }
       }
