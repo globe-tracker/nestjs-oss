@@ -127,6 +127,7 @@ jobs:
     steps:
       - setup
       - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
+      - run: cat ~/.npmrc
       - run:
           command: >-
             yarn nx affected --target=publish $AFFECTED_ARGS --parallel
@@ -145,12 +146,12 @@ workflows:
       - build:
           requires:
             - initialise
-      - lint:
-          requires:
-            - initialise
-      - test:
-          requires:
-            - initialise
+#      - lint:
+#          requires:
+#            - initialise
+#      - test:
+#          requires:
+#            - initialise
       - publish:
           requires:
             - build
