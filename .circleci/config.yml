@@ -5,7 +5,7 @@ orbs:
   nx: nrwl/nx@1.0.0
 
 nx-cache: &nx-cache
-  key: nx-cloud-recipe-{{ checksum "package-lock.json" }}
+  key: nx-cloud-recipe-{{ checksum "yarn.lock" }}
 
 # Reusable Commands
 commands:
@@ -13,7 +13,7 @@ commands:
     description: Install Packages
     steps:
       - node/install-packages:
-          include-branch-in-cache-key: true
+          include-branch-in-cache-key: false
           cache-version: v3
           pkg-manager: yarn
       - save_cache:
@@ -25,9 +25,7 @@ commands:
     description: 'Restore Cached Dependencies'
     steps:
       - restore_cache:
-          keys:
-            - nx-cloud-recipe-{{ checksum "package-lock.json" }}
-            - nx-cloud-recipe- # used if checksum fails
+          <<: *nx-cache
 
   setup:
     description: 'Setup Executor'
