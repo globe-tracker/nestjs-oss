@@ -32,6 +32,12 @@
             "main": "packages/logger-nestjs-builder-plugin/src/index.ts",
             "assets": ["packages/logger-nestjs-builder-plugin/*.md"]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/packages/logger-nestjs-builder-plugin"
+          }
         }
       }
     },
@@ -63,6 +69,12 @@
             "packageJson": "packages/nestjs-kubernetes-client/package.json",
             "main": "packages/nestjs-kubernetes-client/src/index.ts",
             "assets": ["packages/nestjs-kubernetes-client/*.md"]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/packages/nestjs-kubernetes-client"
           }
         }
       }
@@ -96,6 +108,12 @@
             "main": "packages/nestjs-kubernetes-operator/src/index.ts",
             "assets": ["packages/nestjs-kubernetes-operator/*.md"]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/packages/nestjs-kubernetes-operator"
+          }
         }
       }
     },
@@ -127,6 +145,12 @@
             "packageJson": "packages/nestjs-logger/package.json",
             "main": "packages/nestjs-logger/src/index.ts",
             "assets": ["packages/nestjs-logger/*.md"]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/packages/nestjs-logger"
           }
         }
       }

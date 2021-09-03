@@ -108,10 +108,7 @@ jobs:
       - setup
       - run:
           command: >-
-            with-kind-cluster.sh kubectl create namespace integration-tests
-      - run:
-          command: >-
-            with-kind-cluster.sh yarn nx affected --target=test $AFFECTED_ARGS --parallel --ci
+            with-kind-cluster.sh kubectl create namespace integration-tests && yarn nx affected --target=test $AFFECTED_ARGS --parallel --ci
             --max-parallel=2
           name: Run Unit Tests
       - store_test_results:
