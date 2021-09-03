@@ -1,7 +1,18 @@
 version: 2.1
 
+default_image: &default_image
+  docker:
+    - image: circleci/node:14.15.1
+
+default_resource_class: &default_resource_class
+  resource_class: medium
+
+defaults: &defaults
+  <<: *default_image
+  <<: *default_resource_class
+
 orbs:
-  node: circleci/node@4.1.0
+  node: circleci/node@4.7.0
   nx: nrwl/nx@1.0.0
 
 nx-cache: &nx-cache
@@ -37,8 +48,7 @@ commands:
 # Available Jobs
 jobs:
   initialise:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - checkout
       - restore_npm_cache
@@ -51,8 +61,7 @@ jobs:
             - dist
 
   build:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - setup
       - run:
@@ -62,8 +71,7 @@ jobs:
           name: Run Builds
 
   test:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - setup
       - run:
