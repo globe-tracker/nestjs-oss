@@ -37,6 +37,7 @@ commands:
   yarn_install:
     description: Install Packages
     steps:
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
       - node/install-packages:
           include-branch-in-cache-key: false
           cache-version: v3
@@ -119,6 +120,12 @@ jobs:
   publish:
     <<: *defaults
     steps:
+      - setup
+      - run:
+          command: >-
+            yarn nx affected --target=publish $AFFECTED_ARGS --parallel
+            --max-parallel=2
+          name: Running NPM Publish
       - run: git rev-parse HEAD > dist/last-deploy.txt
       - save_cache:
          key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
