@@ -37,7 +37,7 @@ commands:
   yarn_install:
     description: Install Packages
     steps:
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > .npmrc
+      - run: echo "//registry.yarnpkg.com/:_authToken=$NPM_AUTH_TOKEN" > ~/.npmrc
       - node/install-packages:
           include-branch-in-cache-key: false
           cache-version: v3
@@ -126,7 +126,7 @@ jobs:
     <<: *defaults
     steps:
       - setup
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > .npmrc
+      - run: echo "//registry.yarnpkg.com/:_authToken=$NPM_AUTH_TOKEN" > ~/.npmrc
       - run:
           command: >-
             yarn nx affected --target=publish $AFFECTED_ARGS
