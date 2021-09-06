@@ -37,7 +37,7 @@ commands:
   yarn_install:
     description: Install Packages
     steps:
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > ~/.npmrc
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > .npmrc
       - node/install-packages:
           include-branch-in-cache-key: false
           cache-version: v3
@@ -126,12 +126,10 @@ jobs:
     <<: *defaults
     steps:
       - setup
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > ~/.npmrc
-      - run: cat ~/.npmrc
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > .npmrc
       - run:
           command: >-
-            yarn nx affected --target=publish $AFFECTED_ARGS --parallel
-            --max-parallel=2
+            yarn nx affected --target=publish $AFFECTED_ARGS
           name: Running NPM Publish
       - run: git rev-parse HEAD > dist/last-deploy.txt
       - save_cache:
