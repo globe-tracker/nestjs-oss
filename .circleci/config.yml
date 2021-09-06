@@ -88,7 +88,6 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - node_modules
             - dist
       - store_artifacts:
           path: dist
@@ -144,14 +143,14 @@ workflows:
       - build:
           requires:
             - initialise
-#      - lint:
-#          requires:
-#            - initialise
-#      - test:
-#          requires:
-#            - initialise
+      - lint:
+          requires:
+            - initialise
+      - test:
+          requires:
+            - initialise
       - publish:
           requires:
             - build
-#            - lint
-#            - test
+            - lint
+            - test
