@@ -126,7 +126,7 @@ jobs:
     <<: *defaults
     steps:
       - setup
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ~/.npmrc
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > ~/.npmrc
       - run: cat ~/.npmrc
       - run:
           command: >-
