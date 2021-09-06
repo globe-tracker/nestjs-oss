@@ -32,6 +32,11 @@ set_env: &set_env
 nx-cache: &nx-cache
   key: nx-cloud-recipe-{{ checksum "yarn.lock" }}
 
+deploy_cache: &deploy_cache
+  keys:
+    - last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
+    - last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-
+
 # Reusable Commands
 commands:
   yarn_install:
@@ -57,6 +62,8 @@ commands:
     description: 'Setup Executor'
     steps:
       - checkout
+      - restore_cache:
+          <<: *deploy_cache
       - run:
           <<: *set_env
       - attach_workspace:
