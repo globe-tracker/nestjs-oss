@@ -1,11 +1,18 @@
 {
   "name": "@globetracker/nestjs-logger",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/globetracker/nestjs-oss",
     "directory": "packages/nestjs-logger"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "@jbiskur/nestjs-options-module-factory": "^3.1.1",
+    "@jbiskur/nestjs-async-module": "^3.1.1",
+    "@nestjs/common": "^7.6.13",
+    "@nestjs/core": "^7.6.13",
+    "joi": "^17.4.0"
+  }
 }
