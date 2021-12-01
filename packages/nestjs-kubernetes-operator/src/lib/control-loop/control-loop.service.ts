@@ -3,7 +3,7 @@ import { SchedulerRegistry } from "@nestjs/schedule";
 import { GTLoggerService, InjectGTLogger } from "@globetracker/nestjs-logger";
 import { DEFAULT_CONTROL_LOOP_INTERVAL } from "../constants";
 import { ModuleOptions } from "@jbiskur/nestjs-async-module";
-import { KubernetesOperatorOptions } from "@globetracker/nestjs-kubernetes-operator";
+import { KubernetesOperatorOptions } from "./../interfaces";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { KubernetesClientService } from "@globetracker/nestjs-kubernetes-client";
 import { WatchedResource } from "../resources/watched-resource.interface";
@@ -29,7 +29,7 @@ export class ControlLoopService implements OnApplicationBootstrap {
           `Running control loop for resource ${resource.plural}`,
           resource
         );
-        let items = await this.listResource(resource);
+        const items = await this.listResource(resource);
       })
     );
   }
@@ -37,7 +37,7 @@ export class ControlLoopService implements OnApplicationBootstrap {
   private async listResource(resource: WatchedResource) {
     let items: {
       response: http.IncomingMessage;
-      body: object;
+      body: unknown;
     };
 
     switch (resource.namespaced) {
