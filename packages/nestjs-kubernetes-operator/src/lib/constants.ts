@@ -1,0 +1,2 @@
+export const DEFAULT_CONTROL_LOOP_INTERVAL = 5000;
+export const RECONCILE_EVENT_PREFIX = "event";

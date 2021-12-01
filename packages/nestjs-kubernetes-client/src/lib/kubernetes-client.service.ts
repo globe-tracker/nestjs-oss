@@ -1,10 +1,17 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CoreV1Api, CustomObjectsApi, KubeConfig, ListPromise, makeInformer, Watch } from '@kubernetes/client-node';
-import axios, { AxiosResponse } from 'axios';
-import request from 'request';
-import { KUBERNETES_CLIENT_OPTIONS } from './constants';
-import { KubernetesClientOptions } from './interfaces';
-import { GTLoggerService, InjectGTLogger } from '@globetracker/nestjs-logger';
+import { Injectable, OnApplicationBootstrap } from "@nestjs/common";
+import {
+  CoreV1Api,
+  CustomObjectsApi,
+  KubeConfig,
+  ListPromise,
+  makeInformer,
+  Watch,
+} from "@kubernetes/client-node";
+import axios, { AxiosResponse } from "axios";
+import request from "request";
+import { KubernetesClientOptions } from "./interfaces";
+import { GTLoggerService, InjectGTLogger } from "@globetracker/nestjs-logger";
+import { ModuleOptions } from "@jbiskur/nestjs-async-module";
 
 export enum PATCH_TYPE {
   JSON,
@@ -27,19 +34,20 @@ export enum INFORMER_EVENT_TYPE {
 }
 
 @Injectable()
-export class KubernetesClientService {
-  private readonly coreAPI: CoreV1Api;
-  private readonly crdAPI: CustomObjectsApi;
-  private readonly config: KubeConfig;
+export class KubernetesClientService implements OnApplicationBootstrap {
+  private coreAPI: CoreV1Api;
+  private crdAPI: CustomObjectsApi;
+  private config: KubeConfig;
 
   constructor(
     @InjectGTLogger(KubernetesClientService.name)
     private readonly logger: GTLoggerService,
-    @Inject(KUBERNETES_CLIENT_OPTIONS)
-    private readonly options: KubernetesClientOptions,
-  ) {
+    private readonly options: ModuleOptions<KubernetesClientOptions>
+  ) {}
+
+  onApplicationBootstrap() {
     this.config = new KubeConfig();
-    if (options.inCluster) {
+    if (this.options.get().inCluster) {
       this.config.loadFromCluster();
     } else {
       this.config.loadFromDefault();

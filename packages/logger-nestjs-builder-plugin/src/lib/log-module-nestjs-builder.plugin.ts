@@ -2,7 +2,7 @@ import {
   INestApplicationBuilderPlugin,
   NestApplicationBuilder,
 } from "@jbiskur/nestjs-test-utilities";
-import { GTLoggerModule } from '@globetracker/nestjs-logger';
+import { GTLoggerModule } from "@globetracker/nestjs-logger";
 
 export class LogModulePlugin implements INestApplicationBuilderPlugin {
   run(appBuilder: NestApplicationBuilder): void {

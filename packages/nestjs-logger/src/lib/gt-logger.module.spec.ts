@@ -1,7 +1,7 @@
 import { GTLoggerModule } from "./gt-logger.module";
 import { INestApplication } from "@nestjs/common";
 import { GTLoggerService } from "./gt-logger.service";
-import { NestApplicationBuilder } from '@jbiskur/nestjs-test-utilities';
+import { NestApplicationBuilder } from "@jbiskur/nestjs-test-utilities";
 
 describe("Logging Module (Smoke Test)", () => {
   let app: INestApplication;

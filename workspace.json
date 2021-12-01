@@ -12,7 +12,8 @@
             "lintFilePatterns": [
               "packages/logger-nestjs-builder-plugin/**/*.ts"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -34,12 +35,13 @@
           }
         },
         "publish": {
-          "builder": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npm publish --access public dist/packages/logger-nestjs-builder-plugin"
           }
         }
-      }
+      },
+      "tags": []
     },
     "nestjs-kubernetes-client": {
       "root": "packages/nestjs-kubernetes-client",
@@ -50,7 +52,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["packages/nestjs-kubernetes-client/**/*.ts"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -72,12 +75,13 @@
           }
         },
         "publish": {
-          "builder": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npm publish --access public dist/packages/nestjs-kubernetes-client"
           }
         }
-      }
+      },
+      "tags": []
     },
     "nestjs-kubernetes-operator": {
       "root": "packages/nestjs-kubernetes-operator",
@@ -88,7 +92,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["packages/nestjs-kubernetes-operator/**/*.ts"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -110,12 +115,13 @@
           }
         },
         "publish": {
-          "builder": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npm publish --access public dist/packages/nestjs-kubernetes-operator"
           }
         }
-      }
+      },
+      "tags": []
     },
     "nestjs-logger": {
       "root": "packages/nestjs-logger",
@@ -126,7 +132,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["packages/nestjs-logger/**/*.ts"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -148,15 +155,13 @@
           }
         },
         "publish": {
-          "builder": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npm publish --access public dist/packages/nestjs-logger"
           }
         }
-      }
+      },
+      "tags": []
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
   }
 }

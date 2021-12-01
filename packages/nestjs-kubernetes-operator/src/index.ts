@@ -1,1 +1,1 @@
-export * from "./lib/kubernetes-operator.module";
+export * from "./lib";

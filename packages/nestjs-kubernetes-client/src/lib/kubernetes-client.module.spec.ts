@@ -4,8 +4,8 @@ import { KubernetesClientModule } from "./kubernetes-client.module";
 import { V1Secret } from "@kubernetes/client-node";
 import { uniq } from "@nrwl/nx-plugin/testing";
 import waitForExpect from "wait-for-expect";
-import { NestApplicationBuilder } from '@jbiskur/nestjs-test-utilities';
-import { LogModulePlugin } from '@globetracker/logger-nestjs-builder-plugin';
+import { NestApplicationBuilder } from "@jbiskur/nestjs-test-utilities";
+import { LogModulePlugin } from "@globetracker/logger-nestjs-builder-plugin";
 
 const testingNamespace = "integration-tests";
 const secretName = uniq("secret");

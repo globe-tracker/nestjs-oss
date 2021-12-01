@@ -53,13 +53,13 @@ commands:
             - ~/.cache
 
   restore_npm_cache:
-    description: 'Restore Cached Dependencies'
+    description: "Restore Cached Dependencies"
     steps:
       - restore_cache:
           <<: *nx-cache
 
   setup:
-    description: 'Setup Executor'
+    description: "Setup Executor"
     steps:
       - checkout
       - restore_cache:
@@ -139,9 +139,9 @@ jobs:
           name: Running NPM Publish
       - run: git rev-parse HEAD > dist/last-deploy.txt
       - save_cache:
-         key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
-         paths:
-           - dist/last-deploy.txt
+          key: last-deploy-sha-{{ .Environment.CIRCLE_BRANCH }}-{{ .Revision }}
+          paths:
+            - dist/last-deploy.txt
 
 workflows:
   build-and-test:
