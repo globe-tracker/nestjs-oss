@@ -1,0 +1,40 @@
+{
+  "root": "packages/logger-nestjs-builder-plugin",
+  "sourceRoot": "packages/logger-nestjs-builder-plugin/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/logger-nestjs-builder-plugin/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/logger-nestjs-builder-plugin"],
+      "options": {
+        "jestConfig": "packages/logger-nestjs-builder-plugin/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/logger-nestjs-builder-plugin",
+        "tsConfig": "packages/logger-nestjs-builder-plugin/tsconfig.lib.json",
+        "packageJson": "packages/logger-nestjs-builder-plugin/package.json",
+        "main": "packages/logger-nestjs-builder-plugin/src/index.ts",
+        "assets": ["packages/logger-nestjs-builder-plugin/*.md"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npm publish --access public dist/packages/logger-nestjs-builder-plugin"
+      }
+    }
+  },
+  "tags": []
+}

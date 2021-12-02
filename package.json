@@ -16,7 +16,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/schedule": "^1.0.1",
     "joi": "^17.4.2",
-    "nest-winston": "^1.6.0",
+    "nest-winston": "^1.6.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.0.0",

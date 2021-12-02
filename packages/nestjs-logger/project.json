@@ -1,0 +1,40 @@
+{
+  "root": "packages/nestjs-logger",
+  "sourceRoot": "packages/nestjs-logger/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/nestjs-logger/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nestjs-logger"],
+      "options": {
+        "jestConfig": "packages/nestjs-logger/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nestjs-logger",
+        "tsConfig": "packages/nestjs-logger/tsconfig.lib.json",
+        "packageJson": "packages/nestjs-logger/package.json",
+        "main": "packages/nestjs-logger/src/index.ts",
+        "assets": ["packages/nestjs-logger/*.md"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npm publish --access public dist/packages/nestjs-logger"
+      }
+    }
+  },
+  "tags": []
+}

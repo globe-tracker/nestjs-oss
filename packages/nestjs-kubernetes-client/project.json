@@ -1,0 +1,40 @@
+{
+  "root": "packages/nestjs-kubernetes-client",
+  "sourceRoot": "packages/nestjs-kubernetes-client/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/nestjs-kubernetes-client/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nestjs-kubernetes-client"],
+      "options": {
+        "jestConfig": "packages/nestjs-kubernetes-client/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nestjs-kubernetes-client",
+        "tsConfig": "packages/nestjs-kubernetes-client/tsconfig.lib.json",
+        "packageJson": "packages/nestjs-kubernetes-client/package.json",
+        "main": "packages/nestjs-kubernetes-client/src/index.ts",
+        "assets": ["packages/nestjs-kubernetes-client/*.md"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npm publish --access public dist/packages/nestjs-kubernetes-client"
+      }
+    }
+  },
+  "tags": []
+}
