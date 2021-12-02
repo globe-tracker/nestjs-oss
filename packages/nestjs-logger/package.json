@@ -9,8 +9,8 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@jbiskur/nestjs-options-module-factory": "^3.1.1",
-    "@jbiskur/nestjs-async-module": "^3.1.1",
+    "@jbiskur/nestjs-options-module-factory": "^3.2.1",
+    "@jbiskur/nestjs-async-module": "^3.2.1",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "joi": "^17.4.0"
